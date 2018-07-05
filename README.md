@@ -28,6 +28,7 @@ The following features need to be addressed in this POC:
 ..* -[] Cloudera CDH 5.13
 ..* -[] MapR 6.0
 ..* -[] EMR 5.11
+4. Replacing Hortonworks jar with standard HBase/HDFS/Spark jars
 
 
 

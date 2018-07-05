@@ -24,6 +24,9 @@ public class HBaseRddDriver implements Serializable {
     public static void main(String[] args){
         System.out.println("Running");
 
+        /**
+         * Configure Spark and HBase
+         */
         SparkConf sparkConf = new SparkConf()
                 .setMaster("local[*]")
                 .setAppName("HBase RDD Demo");
@@ -31,6 +34,9 @@ public class HBaseRddDriver implements Serializable {
         Configuration hbaseConf = HBaseConfiguration.create();
         hbaseConf.addResource("hbase-site.xml");
         hbaseConf.set(TableInputFormat.INPUT_TABLE, "iemployee");
+        hbaseConf.set(TableOutputFormat.OUTPUT_TABLE, "iemployeeout");
+        //This is required to write to output table
+        hbaseConf.set("mapreduce.outputformat.class", "org.apache.hadoop.hbase.mapreduce.TableOutputFormat");
 
         try {
             HBaseAdmin.checkHBaseAvailable(hbaseConf);
@@ -51,7 +57,7 @@ public class HBaseRddDriver implements Serializable {
                     .newAPIHadoopRDD(hbaseConf, TableInputFormat.class,
                             ImmutableBytesWritable.class, Result.class);
 
-            //Map Pair RDD into serialized objects
+            //Map Pair RDD into serialized objects RDD
             JavaRDD<EmployeeBean> employeeRDD = rdd.map(
                     new Function<Tuple2<ImmutableBytesWritable, Result>, EmployeeBean>() {
                         @Override
@@ -67,20 +73,22 @@ public class HBaseRddDriver implements Serializable {
                     }
             );
 
-            employeeRDD.foreach((line) -> System.out.println("Print Row -- " + line));
-
-            System.out.println("Output HBase Config");
-            hbaseConf.set(TableOutputFormat.OUTPUT_TABLE, "iemployeeout");
-            hbaseConf.set("mapreduce.outputformat.class", "org.apache.hadoop.hbase.mapreduce.TableOutputFormat");
+            //Sanity Check
+            //employeeRDD.foreach((line) -> System.out.println("Print Row -- " + line));
 
             //output needs to be converted to pairRDD
             JavaPairRDD<ImmutableBytesWritable, Put> hbasePuts = employeeRDD.mapToPair(
                     new HBaseOutPairFunction()
             );
 
-            hbasePuts.foreach((line) -> System.out.println("Print out -- " + line));
+            //Sanity Check
+            //hbasePuts.foreach((line) -> System.out.println("Print out -- " + line));
 
-            System.out.println("Putting Hbase....");
+            System.out.println("Putting HBase....");
+            /**
+             * This API allows for a bulk put into HBase.
+             * Writing sequential puts is not recommended
+             */
             hbasePuts.saveAsNewAPIHadoopDataset(hbaseConf);
         } catch (Exception ex){
             System.out.println("Cannot connect to HBase");

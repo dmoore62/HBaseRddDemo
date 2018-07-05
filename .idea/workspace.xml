@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="38b99f56-caf6-44bf-8de1-22553688d576" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/hbaserdddemo/EmployeeBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/hbaserdddemo/HBaseOutPairFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/hbaserdddemo/HBaseRddDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/hbaserdddemo/HBaseRddDriver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/hbaserdddemo/HBaseRddDriver.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/hbaserdddemo/HBaseRddDriver.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -38,11 +32,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HBaseRddDriver.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="HBaseRddDriver.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/hbaserdddemo/HBaseRddDriver.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="334">
-              <caret line="69" column="86" selection-start-line="69" selection-start-column="86" selection-end-line="69" selection-end-column="86" />
+            <state relative-caret-position="355">
+              <caret line="27" column="33" selection-start-line="27" selection-start-column="33" selection-end-line="27" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -50,12 +44,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="255">
-                <caret line="17" selection-start-line="17" selection-end-line="17" />
+              <first_editor relative-caret-position="450">
+                <caret line="30" column="64" selection-start-line="30" selection-start-column="64" selection-end-line="30" selection-end-column="64" />
               </first_editor>
               <second_editor />
             </state>
@@ -158,8 +152,8 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/hbaserdddemo/EmployeeBean.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/hbaserdddemo/HBaseOutPairFunction.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/hbaserdddemo/HBaseRddDriver.java" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/src/main/java/com/hbaserdddemo/HBaseRddDriver.java" />
       </list>
     </option>
   </component>
@@ -338,12 +332,12 @@
       <updated>1530629143128</updated>
       <workItem from="1530629153837" duration="6185000" />
       <workItem from="1530638586883" duration="2653000" />
-      <workItem from="1530796720867" duration="13688000" />
+      <workItem from="1530796720867" duration="14166000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22526000" />
+    <option name="totallyTimeSpent" value="23004000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="3600" y="-77" width="1920" height="1080" extended-state="6" />
@@ -541,23 +535,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/hbaserdddemo/HBaseRddDriver.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="69" column="86" selection-start-line="69" selection-start-column="86" selection-end-line="69" selection-end-column="86" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="255">
-            <caret line="17" selection-start-line="17" selection-end-line="17" />
+          <first_editor relative-caret-position="450">
+            <caret line="30" column="64" selection-start-line="30" selection-start-column="64" selection-end-line="30" selection-end-column="64" />
           </first_editor>
           <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/hbaserdddemo/HBaseRddDriver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="355">
+          <caret line="27" column="33" selection-start-line="27" selection-start-column="33" selection-end-line="27" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
