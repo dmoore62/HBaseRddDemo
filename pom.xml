@@ -7,11 +7,59 @@
     <groupId>com.example.hbaserdd</groupId>
     <artifactId>HBaseRDD</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <properties>
+        <spark.version>2.3.1</spark.version>
+        <hbase.version>2.0.1</hbase.version>
+        <phoenix.version>5.0.0-alpha-HBase-2.0</phoenix.version>
+        <test_classpath_file>${project.build.directory}/spark-test-classpath.txt</test_classpath_file>
+        <java.version>1.7</java.version>
+        <scala.version>2.11.8</scala.version>
+        <scala.macros.version>2.1.0</scala.macros.version>
+        <scala.binary.version>2.11</scala.binary.version>
+        <avro.version>1.7.6</avro.version>
+        <codahale.metrics.version>3.0.0</codahale.metrics.version>
+        <codehaus.jackson.version>1.8.8</codehaus.jackson.version>
+
+        <PermGen>64m</PermGen>
+        <MaxPermGen>512m</MaxPermGen>
+        <CodeCacheSize>512m</CodeCacheSize>
+    </properties>
+
     <dependencies>
         <dependency>
-            <groupId>com.hortonworks</groupId>
-            <artifactId>shc</artifactId>
-            <version>1.0.0-2.0-s_2.11</version>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase</artifactId>
+            <version>${hbase.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-client</artifactId>
+            <version>${hbase.version}</version>
+        </dependency>
+        <dependency>
+        <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-server</artifactId>
+            <version>${hbase.version}</version>
+        </dependency>
+        <dependency>
+        <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-common</artifactId>
+            <version>${hbase.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-mapreduce</artifactId>
+            <version>${hbase.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.phoenix</groupId>
+            <artifactId>phoenix-core</artifactId>
+            <version>${phoenix.version}</version>
         </dependency>
     </dependencies>
 </project>
