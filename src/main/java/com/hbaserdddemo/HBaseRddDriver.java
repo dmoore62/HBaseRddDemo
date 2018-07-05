@@ -2,25 +2,31 @@ package com.hbaserdddemo;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.client.HBaseAdmin;
-import org.apache.hadoop.hbase.client.Result;
-import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
+import org.apache.hadoop.hbase.mapred.TableOutputFormat;
 import org.apache.hadoop.hbase.mapreduce.TableInputFormat;
 import org.apache.hadoop.hbase.protobuf.ProtobufUtil;
 import org.apache.hadoop.hbase.protobuf.generated.ClientProtos;
 import org.apache.hadoop.hbase.util.Base64;
+import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
+import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.function.Function;
+import scala.Tuple2;
 
 import java.io.IOException;
+import java.io.Serializable;
 
-public class HBaseRddDriver {
+public class HBaseRddDriver implements Serializable {
     public static void main(String[] args){
         System.out.println("Running");
 
-        SparkConf sparkConf = new SparkConf().setMaster("local[*]").setAppName("HBase RDD Demo");
+        SparkConf sparkConf = new SparkConf()
+                .setMaster("local[*]")
+                .setAppName("HBase RDD Demo");
         JavaSparkContext sc = new JavaSparkContext(sparkConf);
         Configuration hbaseConf = HBaseConfiguration.create();
         hbaseConf.addResource("hbase-site.xml");
@@ -28,7 +34,7 @@ public class HBaseRddDriver {
 
         try {
             HBaseAdmin.checkHBaseAvailable(hbaseConf);
-            System.out.println("Connented to HBase!");
+            System.out.println("Connected to HBase!");
 
             Scan scan = new Scan();
             scan.setCaching(500);
@@ -40,15 +46,46 @@ public class HBaseRddDriver {
             //submit to hbase
             hbaseConf.set(TableInputFormat.SCAN, convertScanToString(scan));
 
+            //Scan KVs into pair RDD
             JavaPairRDD<ImmutableBytesWritable, Result> rdd = sc
                     .newAPIHadoopRDD(hbaseConf, TableInputFormat.class,
                             ImmutableBytesWritable.class, Result.class);
 
-            rdd.foreach((line) -> System.out.println("Print Row -- " + line));
+            //Map Pair RDD into serialized objects
+            JavaRDD<EmployeeBean> employeeRDD = rdd.map(
+                    new Function<Tuple2<ImmutableBytesWritable, Result>, EmployeeBean>() {
+                        @Override
+                        public EmployeeBean call(Tuple2<ImmutableBytesWritable, Result> tuple) throws Exception {
+                            EmployeeBean e = new EmployeeBean();
+                            Result r = tuple._2;
+                            e.setId(Bytes.toInt(tuple._2.getRow(), Integer.BYTES));
+                            e.setFirstName(Bytes.toString(r.getValue(Bytes.toBytes("personal"), Bytes.toBytes("fname"))));
+                            e.setLastName(Bytes.toString(r.getValue(Bytes.toBytes("personal"), Bytes.toBytes("lname"))));
+                            e.setCity(Bytes.toString(r.getValue(Bytes.toBytes("personal"), Bytes.toBytes("city"))));
+                            return e;
+                        }
+                    }
+            );
+
+            employeeRDD.foreach((line) -> System.out.println("Print Row -- " + line));
+
+            System.out.println("Output HBase Config");
+            hbaseConf.set(TableOutputFormat.OUTPUT_TABLE, "iemployeeout");
+            hbaseConf.set("mapreduce.outputformat.class", "org.apache.hadoop.hbase.mapreduce.TableOutputFormat");
+
+            //output needs to be converted to pairRDD
+            JavaPairRDD<ImmutableBytesWritable, Put> hbasePuts = employeeRDD.mapToPair(
+                    new HBaseOutPairFunction()
+            );
+
+            hbasePuts.foreach((line) -> System.out.println("Print out -- " + line));
+
+            System.out.println("Putting Hbase....");
+            hbasePuts.saveAsNewAPIHadoopDataset(hbaseConf);
         } catch (Exception ex){
             System.out.println("Cannot connect to HBase");
+            System.out.println(ex.toString());
         }
-
     }
 
     static String convertScanToString(Scan scan) throws IOException {
