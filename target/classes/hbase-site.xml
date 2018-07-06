@@ -1,7 +1,7 @@
 <configuration>
     <property>
         <name>hbase.zookeeper.quorum</name>
-        <value>sandbox-hdp.hortonworks.com</value>
+        <value>quickstart.cloudera</value>
     </property>
     <property>
         <name>hbase.zookeeper.property.clientPort</name>
@@ -9,6 +9,6 @@
     </property>
     <property>
         <name>zookeeper.znode.parent</name>
-        <value>/hbase-unsecure</value>
+        <value>/hbase</value>
     </property>
 </configuration>

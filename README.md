@@ -25,7 +25,8 @@ The following features need to be addressed in this POC:
 2. ~~Output an RDD's contents back to HBase~~
 3. Testing across different vendors
    * -[X] Hortonworks HDP 2.6
-   * -[ ] Cloudera CDH 5.13
+   * -[X] Cloudera CDH 5.13
+        * Had to modify Integer size to read rowkeys
    * -[ ] MapR 6.0
    * -[ ] EMR 5.11
 4. ~~Replacing Hortonworks jar with standard HBase/HDFS/Spark jars~~

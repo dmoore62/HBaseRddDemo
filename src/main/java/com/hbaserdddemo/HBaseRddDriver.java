@@ -64,7 +64,7 @@ public class HBaseRddDriver implements Serializable {
                         public EmployeeBean call(Tuple2<ImmutableBytesWritable, Result> tuple) throws Exception {
                             EmployeeBean e = new EmployeeBean();
                             Result r = tuple._2;
-                            e.setId(Bytes.toInt(tuple._2.getRow(), Integer.BYTES));
+                            e.setId(Bytes.toInt(tuple._2.getRow()));
                             e.setFirstName(Bytes.toString(r.getValue(Bytes.toBytes("personal"), Bytes.toBytes("fname"))));
                             e.setLastName(Bytes.toString(r.getValue(Bytes.toBytes("personal"), Bytes.toBytes("lname"))));
                             e.setCity(Bytes.toString(r.getValue(Bytes.toBytes("personal"), Bytes.toBytes("city"))));
@@ -74,7 +74,7 @@ public class HBaseRddDriver implements Serializable {
             );
 
             //Sanity Check
-            //employeeRDD.foreach((line) -> System.out.println("Print Row -- " + line));
+            employeeRDD.foreach((line) -> System.out.println("Print Row -- " + line));
 
             //output needs to be converted to pairRDD
             JavaPairRDD<ImmutableBytesWritable, Put> hbasePuts = employeeRDD.mapToPair(
@@ -82,7 +82,7 @@ public class HBaseRddDriver implements Serializable {
             );
 
             //Sanity Check
-            //hbasePuts.foreach((line) -> System.out.println("Print out -- " + line));
+            hbasePuts.foreach((line) -> System.out.println("Print out -- " + line));
 
             System.out.println("Putting HBase....");
             /**
